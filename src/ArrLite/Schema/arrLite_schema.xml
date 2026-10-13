@@ -1,0 +1,99 @@
+<!--
+  ArrLite configuration schema.
+  Install into: <IIS Express install folder>\config\schema\arrLite_schema.xml
+  (for full IIS: %windir%\System32\inetsrv\config\schema\arrLite_schema.xml)
+
+  IIS schema files can't share type definitions, so globalRules repeats the rules layout.
+-->
+<configSchema>
+
+  <!-- Per-site / per-directory rules (allowed in web.config) -->
+  <sectionSchema name="system.webServer/arrLite/rules">
+    <collection addElement="rule" clearElement="clear" removeElement="remove">
+      <attribute name="name" type="string" required="true" isUniqueKey="true" validationType="nonEmptyString" />
+      <attribute name="enabled" type="bool" defaultValue="true" />
+      <attribute name="stopProcessing" type="bool" defaultValue="false" />
+      <element name="match">
+        <attribute name="url" type="string" required="true" />
+        <attribute name="ignoreCase" type="bool" defaultValue="true" />
+        <attribute name="negate" type="bool" defaultValue="false" />
+      </element>
+      <element name="conditions">
+        <attribute name="logicalGrouping" type="enum" defaultValue="MatchAll">
+          <enum name="MatchAll" value="0" />
+          <enum name="MatchAny" value="1" />
+        </attribute>
+        <collection addElement="add" clearElement="clear">
+          <attribute name="input" type="string" required="true" isCombinedKey="true" />
+          <attribute name="pattern" type="string" isCombinedKey="true" />
+          <attribute name="negate" type="bool" defaultValue="false" />
+          <attribute name="ignoreCase" type="bool" defaultValue="true" />
+        </collection>
+      </element>
+      <element name="action">
+        <attribute name="type" type="enum" defaultValue="None">
+          <enum name="None" value="0" />
+          <enum name="Rewrite" value="1" />
+          <enum name="Redirect" value="2" />
+          <enum name="CustomResponse" value="3" />
+          <enum name="AbortRequest" value="4" />
+        </attribute>
+        <attribute name="url" type="string" />
+        <attribute name="appendQueryString" type="bool" defaultValue="true" />
+        <attribute name="redirectType" type="enum" defaultValue="Permanent">
+          <enum name="Permanent" value="301" />
+          <enum name="Found" value="302" />
+          <enum name="SeeOther" value="303" />
+          <enum name="Temporary" value="307" />
+        </attribute>
+      </element>
+    </collection>
+  </sectionSchema>
+
+  <!-- Server-wide rules (applicationHost.config only) -->
+  <sectionSchema name="system.webServer/arrLite/globalRules">
+    <collection addElement="rule" clearElement="clear" removeElement="remove">
+      <attribute name="name" type="string" required="true" isUniqueKey="true" validationType="nonEmptyString" />
+      <attribute name="enabled" type="bool" defaultValue="true" />
+      <attribute name="stopProcessing" type="bool" defaultValue="false" />
+      <element name="match">
+        <attribute name="url" type="string" required="true" />
+        <attribute name="ignoreCase" type="bool" defaultValue="true" />
+        <attribute name="negate" type="bool" defaultValue="false" />
+      </element>
+      <element name="conditions">
+        <attribute name="logicalGrouping" type="enum" defaultValue="MatchAll">
+          <enum name="MatchAll" value="0" />
+          <enum name="MatchAny" value="1" />
+        </attribute>
+        <collection addElement="add" clearElement="clear">
+          <attribute name="input" type="string" required="true" isCombinedKey="true" />
+          <attribute name="pattern" type="string" isCombinedKey="true" />
+          <attribute name="negate" type="bool" defaultValue="false" />
+          <attribute name="ignoreCase" type="bool" defaultValue="true" />
+        </collection>
+      </element>
+      <element name="action">
+        <attribute name="type" type="enum" defaultValue="None">
+          <enum name="None" value="0" />
+          <enum name="Rewrite" value="1" />
+          <enum name="Redirect" value="2" />
+          <enum name="CustomResponse" value="3" />
+          <enum name="AbortRequest" value="4" />
+        </attribute>
+        <attribute name="url" type="string" />
+        <attribute name="appendQueryString" type="bool" defaultValue="true" />
+        <attribute name="redirectType" type="enum" defaultValue="Permanent">
+          <enum name="Permanent" value="301" />
+          <enum name="Found" value="302" />
+          <enum name="SeeOther" value="303" />
+          <enum name="Temporary" value="307" />
+        </attribute>
+      </element>
+    </collection>
+  </sectionSchema>
+
+  <!-- TODO (not designed yet): rewriteMaps, outboundRules, and ARR-style
+       system.webServer/arrLite/proxy + a webFarms equivalent for routing/load balancing. -->
+
+</configSchema>

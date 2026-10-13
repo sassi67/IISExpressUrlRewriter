@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net481</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ArrLite</RootNamespace>
+    <AssemblyName>ArrLite</AssemblyName>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Description>Managed IIS / IIS Express module replicating a subset of URL Rewrite and ARR.</Description>
+
+    <!-- Strong-named: required when registered server-wide in applicationHost.config (GAC install). -->
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ArrLite.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Compile-time only: at runtime the copy installed in the GAC by IIS / IIS Express is used. -->
+    <PackageReference Include="Microsoft.Web.Administration" Version="7.0.0" ExcludeAssets="runtime" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Schema\arrLite_schema.xml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
